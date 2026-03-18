@@ -446,9 +446,6 @@ class _DailyHeroCard extends StatelessWidget {
   }
 }
 
-// ---------------------------------------------------------------------------
-// Section header
-// ---------------------------------------------------------------------------
 
 class _SectionHeader extends StatelessWidget {
   final String title;
@@ -472,8 +469,7 @@ class _SectionHeader extends StatelessWidget {
           style: AppTextStyles.body.copyWith(color: AppColors.textMuted, fontSize: 13),
         ),
         const Spacer(),
-        // Was a bare GestureDetector on text — under the 44dp minimum tap target
-        // and with no press feedback.
+       
         TextButton(
           onPressed: () {
             HapticFeedback.selectionClick();
@@ -505,9 +501,6 @@ class _SectionHeader extends StatelessWidget {
   }
 }
 
-// ---------------------------------------------------------------------------
-// Small shared pieces
-// ---------------------------------------------------------------------------
 
 class _Pill extends StatelessWidget {
   final String label;
@@ -542,9 +535,6 @@ class _Pill extends StatelessWidget {
   }
 }
 
-/// Staggered fade-and-rise on first paint. One orchestrated entrance rather
-/// than animation scattered across the screen; skipped when the platform
-/// asks for reduced motion.
 class _Reveal extends StatelessWidget {
   final int order;
   final Widget child;
