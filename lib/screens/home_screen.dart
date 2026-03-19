@@ -12,18 +12,12 @@ import '../widgets/streak_badge.dart';
 import '../widgets/xp_bar.dart';
 import 'gameplay_screen.dart';
 
-/// Home screen.
-///
-/// Visual direction: a floodlit scoreboard. The daily silhouette is the single
-/// loud element on the page — everything around it stays quiet so the eye lands
-/// there first. Streak, level and XP live in one place (the identity card) so
-/// the same number is never shown twice.
 class HomeScreen extends StatelessWidget {
   final VoidCallback onSeeAllModes;
 
   const HomeScreen({super.key, required this.onSeeAllModes});
 
-  /// Height reserved for the floating bottom navigation bar.
+  
   static const double _bottomNavInset = 112;
 
   static const List<GameModeId> _homeGridModes = [
@@ -126,9 +120,7 @@ class HomeScreen extends StatelessWidget {
   }
 }
 
-// ---------------------------------------------------------------------------
-// Top bar
-// ---------------------------------------------------------------------------
+
 
 class _TopBar extends StatelessWidget {
   final AppState state;
@@ -234,9 +226,7 @@ class _AvatarWithLevelRing extends StatelessWidget {
   }
 }
 
-// ---------------------------------------------------------------------------
-// Identity card
-// ---------------------------------------------------------------------------
+
 
 class _IdentityCard extends StatelessWidget {
   final AppState state;
