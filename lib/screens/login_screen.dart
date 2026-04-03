@@ -19,495 +19,334 @@ class MyApp extends StatelessWidget {
 }
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
-
+ 
   @override
   State<LoginPage> createState() => _LoginPageState();
 }
-
+ 
 class _LoginPageState extends State<LoginPage> {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
-
+ 
   bool obscurePassword = true;
-
+ 
   static const green = Color(0xFF35C94A);
   static const fieldColor = Color(0xFF101820);
   static const borderColor = Color(0xFF29333D);
   static const secondaryText = Color(0xFF9DA5AE);
-
+ 
   @override
   void dispose() {
     emailController.dispose();
     passwordController.dispose();
-
     super.dispose();
   }
-
+ 
   @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
+ 
     return Scaffold(
       resizeToAvoidBottomInset: false,
       backgroundColor: const Color(0xFF02070B),
-
-      body: LayoutBuilder(
-        builder: (context, constraints) {
-          // Reference design:
-          // width  = 512
-          // height = 1260
-
-          final double sx = constraints.maxWidth / 512;
-          final double sy = constraints.maxHeight / 1260;
-
-          // Used for fonts/icons so they don't get stretched.
-          final double scale = math.min(sx, sy);
-
-          double x(double value) => value * sx;
-          double y(double value) => value * sy;
-          double s(double value) => value * scale;
-
-          return Stack(
-            children: [
-              // ============================================================
-              // REAL BACKGROUND
-              // ============================================================
-
-              Positioned.fill(
-                child: Image.asset(
-                  'assets/images/login_bg.png',
-                  fit: BoxFit.fill,
-                ),
-              ),
-
-              // Slight dark layer so text stays readable.
-              Positioned.fill(
-                child: Container(
-                  color: Colors.black.withOpacity(0.08),
-                ),
-              ),
-
-              // ============================================================
-              // LOGO
-              // ============================================================
-
-              Positioned(
-                top: y(95),
-                left: x(165),
-                width: x(182),
-                height: y(210),
-
-                child: Image.asset(
-                  'assets/images/football_iq_logo.png',
-                  fit: BoxFit.contain,
-                ),
-              ),
-
-              // ============================================================
-              // WELCOME BACK
-              // ============================================================
-
-              Positioned(
-                top: y(332),
-                left: 0,
-                right: 0,
-
-                child: RichText(
-                  textAlign: TextAlign.center,
-
-                  text: TextSpan(
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: s(36),
-                      fontWeight: FontWeight.w800,
-                      height: 1,
-                    ),
-
-                    children: const [
-                      TextSpan(
-                        text: 'Welcome ',
-                      ),
-
-                      TextSpan(
-                        text: 'Back!',
-                        style: TextStyle(
-                          color: green,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-
-              // ============================================================
-              // SUBTITLE
-              // ============================================================
-
-              Positioned(
-                top: y(385),
-                left: 0,
-                right: 0,
-
-                child: Text(
-                  'Login to continue your football journey',
-                  textAlign: TextAlign.center,
-
-                  style: TextStyle(
-                    color: secondaryText,
-                    fontSize: s(17),
-                  ),
-                ),
-              ),
-
-              // ============================================================
-              // EMAIL FIELD
-              // ============================================================
-
-              Positioned(
-                top: y(440),
-                left: x(33),
-                right: x(33),
-                height: y(76),
-
-                child: _buildInputField(
-                  controller: emailController,
-                  hint: 'Email or Username',
-                  icon: Icons.person_outline,
-                  fontSize: s(17),
-                ),
-              ),
-
-              // ============================================================
-              // PASSWORD FIELD
-              // ============================================================
-
-              Positioned(
-                top: y(536),
-                left: x(33),
-                right: x(33),
-                height: y(76),
-
-                child: _buildInputField(
-                  controller: passwordController,
-                  hint: 'Password',
-                  icon: Icons.lock_outline,
-                  obscure: obscurePassword,
-                  fontSize: s(17),
-
-                  suffix: IconButton(
-                    onPressed: () {
-                      setState(() {
-                        obscurePassword = !obscurePassword;
-                      });
-                    },
-
-                    icon: Icon(
-                      obscurePassword
-                          ? Icons.visibility_outlined
-                          : Icons.visibility_off_outlined,
-                      color: secondaryText,
-                      size: s(24),
-                    ),
-                  ),
-                ),
-              ),
-
-              // ============================================================
-              // FORGOT PASSWORD
-              // ============================================================
-
-              Positioned(
-                top: y(627),
-                right: x(33),
-
-                child: GestureDetector(
-                  onTap: () {},
-
-                  child: Text(
-                    'Forgot Password?',
-
-                    style: TextStyle(
-                      color: green,
-                      fontSize: s(15),
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ),
-                ),
-              ),
-
-              // ============================================================
-              // LOGIN BUTTON
-              // ============================================================
-
-              Positioned(
-                top: y(679),
-                left: x(33),
-                right: x(33),
-                height: y(72),
-
-                child: ElevatedButton(
-                  onPressed: () {},
-
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: green,
-                    foregroundColor: Colors.white,
-                    elevation: 0,
-
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(
-                        s(14),
-                      ),
-                    ),
-                  ),
-
-                  child: Text(
-                    'LOGIN',
-
-                    style: TextStyle(
-                      fontSize: s(19),
-                      fontWeight: FontWeight.w800,
-                    ),
-                  ),
-                ),
-              ),
-
-              // ============================================================
-              // OR CONTINUE WITH
-              // ============================================================
-
-              Positioned(
-                top: y(782),
-                left: x(33),
-                right: x(33),
-
-                child: Row(
+ 
+      body: Stack(
+        children: [
+          // ============================================================
+          // BACKGROUND — cover instead of fill, so it never stretches
+          // or distorts on screens with a different aspect ratio than
+          // the reference design.
+          // ============================================================
+          Positioned.fill(
+            child: Image.asset(
+              'assets/images/login_bg.png',
+              fit: BoxFit.cover,
+            ),
+          ),
+ 
+          Positioned.fill(
+            child: Container(color: Colors.black.withOpacity(0.10)),
+          ),
+ 
+          // ============================================================
+          // CONTENT — laid out with a Column + proportional spacing
+          // instead of hard-coded pixel positions, so it adapts cleanly
+          // to different phone sizes without clipping or big gaps.
+          // ============================================================
+          Positioned.fill(
+            child: SafeArea(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 28),
+                child: Column(
                   children: [
-                    const Expanded(
-                      child: Divider(
-                        color: Color(0xFF48505A),
+                    SizedBox(height: size.height * 0.05),
+ 
+                    // Logo
+                    Image.asset(
+                      'assets/images/football_iq_logo.png',
+                      height: size.height * 0.16,
+                      fit: BoxFit.contain,
+                    ),
+ 
+                    SizedBox(height: size.height * 0.03),
+ 
+                    // Welcome text
+                    RichText(
+                      textAlign: TextAlign.center,
+                      text: const TextSpan(
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 32,
+                          fontWeight: FontWeight.w800,
+                          height: 1.1,
+                        ),
+                        children: [
+                          TextSpan(text: 'Welcome '),
+                          TextSpan(text: 'Back!', style: TextStyle(color: green)),
+                        ],
                       ),
                     ),
-
-                    Padding(
-                      padding: EdgeInsets.symmetric(
-                        horizontal: x(14),
-                      ),
-
-                      child: Text(
-                        'OR CONTINUE WITH',
-
-                        style: TextStyle(
+ 
+                    const SizedBox(height: 8),
+ 
+                    Text(
+                      'Login to continue your football journey',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(color: secondaryText, fontSize: 15),
+                    ),
+ 
+                    SizedBox(height: size.height * 0.045),
+ 
+                    // Email field
+                    _buildInputField(
+                      controller: emailController,
+                      hint: 'Email or Username',
+                      icon: Icons.person_outline,
+                      keyboardType: TextInputType.emailAddress,
+                    ),
+ 
+                    const SizedBox(height: 16),
+ 
+                    // Password field
+                    _buildInputField(
+                      controller: passwordController,
+                      hint: 'Password',
+                      icon: Icons.lock_outline,
+                      obscure: obscurePassword,
+                      suffix: IconButton(
+                        onPressed: () {
+                          setState(() => obscurePassword = !obscurePassword);
+                        },
+                        icon: Icon(
+                          obscurePassword
+                              ? Icons.visibility_outlined
+                              : Icons.visibility_off_outlined,
                           color: secondaryText,
-                          fontSize: s(13),
+                          size: 22,
                         ),
                       ),
                     ),
-
-                    const Expanded(
-                      child: Divider(
-                        color: Color(0xFF48505A),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-
-              // ============================================================
-              // SOCIAL BUTTONS
-              // ============================================================
-
-              Positioned(
-                top: y(817),
-                left: x(33),
-                right: x(33),
-                height: y(63),
-
-                child: Row(
-                  children: [
-                    Expanded(
-                      child: _socialButton(
-                        icon: Text(
-                          'G',
+ 
+                    const SizedBox(height: 10),
+ 
+                    Align(
+                      alignment: Alignment.centerRight,
+                      child: GestureDetector(
+                        onTap: () {},
+                        child: const Text(
+                          'Forgot Password?',
                           style: TextStyle(
-                            color: const Color(0xFF4285F4),
-                            fontSize: s(22),
-                            fontWeight: FontWeight.bold,
+                            color: green,
+                            fontSize: 14,
+                            fontWeight: FontWeight.w600,
                           ),
                         ),
-                        label: 'Google',
-                        size: s(15),
                       ),
                     ),
-
-                    SizedBox(width: x(14)),
-
-                    Expanded(
-                      child: _socialButton(
-                        icon: Icon(
-                          Icons.apple,
-                          color: Colors.white,
-                          size: s(24),
+ 
+                    SizedBox(height: size.height * 0.035),
+ 
+                    // Login button
+                    SizedBox(
+                      width: double.infinity,
+                      height: 56,
+                      child: ElevatedButton(
+                        onPressed: () {},
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: green,
+                          foregroundColor: Colors.white,
+                          elevation: 0,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(14),
+                          ),
                         ),
-                        label: 'Apple',
-                        size: s(15),
-                      ),
-                    ),
-
-                    SizedBox(width: x(14)),
-
-                    Expanded(
-                      child: _socialButton(
-                        icon: Icon(
-                          Icons.facebook,
-                          color: const Color(0xFF1877F2),
-                          size: s(24),
+                        child: const Text(
+                          'LOGIN',
+                          style: TextStyle(
+                            fontSize: 17,
+                            fontWeight: FontWeight.w800,
+                            letterSpacing: 0.5,
+                          ),
                         ),
-                        label: 'Facebook',
-                        size: s(15),
                       ),
                     ),
+ 
+                    SizedBox(height: size.height * 0.035),
+ 
+                    // Divider
+                    Row(
+                      children: const [
+                        Expanded(child: Divider(color: Color(0xFF48505A))),
+                        Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 12),
+                          child: Text(
+                            'OR CONTINUE WITH',
+                            style: TextStyle(
+                              color: secondaryText,
+                              fontSize: 12,
+                              letterSpacing: 0.8,
+                            ),
+                          ),
+                        ),
+                        Expanded(child: Divider(color: Color(0xFF48505A))),
+                      ],
+                    ),
+ 
+                    SizedBox(height: size.height * 0.025),
+ 
+                    // Social buttons
+                    Row(
+                      children: [
+                        Expanded(
+                          child: _socialButton(
+                            icon: const Text(
+                              'G',
+                              style: TextStyle(
+                                color: Color(0xFF4285F4),
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            label: 'Google',
+                          ),
+                        ),
+                        const SizedBox(width: 12),
+                        Expanded(
+                          child: _socialButton(
+                            icon: const Icon(Icons.apple, color: Colors.white, size: 22),
+                            label: 'Apple',
+                          ),
+                        ),
+                        const SizedBox(width: 12),
+                        Expanded(
+                          child: _socialButton(
+                            icon: const Icon(Icons.facebook, color: Color(0xFF1877F2), size: 22),
+                            label: 'Facebook',
+                          ),
+                        ),
+                      ],
+                    ),
+ 
+                    SizedBox(height: size.height * 0.035),
+ 
+                    // Sign up
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          "Don't have an account? ",
+                          style: TextStyle(color: secondaryText, fontSize: 14),
+                        ),
+                        GestureDetector(
+                          onTap: () {},
+                          child: const Text(
+                            'Sign Up',
+                            style: TextStyle(
+                              color: green,
+                              fontSize: 14,
+                              fontWeight: FontWeight.w600,
+                              decoration: TextDecoration.underline,
+                              decorationColor: green,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+ 
+                    const Spacer(),
+ 
+                    // Football image — pinned to the bottom via Spacer
+                    // above, instead of an absolute y-offset, so it never
+                    // gets clipped on shorter screens.
+                    Image.asset(
+                      'assets/images/football.png',
+                      height: size.height * 0.16,
+                      fit: BoxFit.contain,
+                    ),
+ 
+                    SizedBox(height: size.height * 0.02),
                   ],
                 ),
               ),
-
-              // ============================================================
-              // SIGN UP
-              // ============================================================
-
-              Positioned(
-                top: y(918),
-                left: 0,
-                right: 0,
-
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-
-                  children: [
-                    Text(
-                      "Don't have an account? ",
-
-                      style: TextStyle(
-                        color: secondaryText,
-                        fontSize: s(15),
-                      ),
-                    ),
-
-                    GestureDetector(
-                      onTap: () {},
-
-                      child: Text(
-                        'Sign Up',
-
-                        style: TextStyle(
-                          color: green,
-                          fontSize: s(15),
-                          fontWeight: FontWeight.w600,
-                          decoration: TextDecoration.underline,
-                          decorationColor: green,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-
-              // ============================================================
-              // REAL FOOTBALL
-              // ============================================================
-
-              Positioned(
-                top: y(995),
-                left: x(160),
-                width: x(192),
-                height: y(200),
-
-                child: Image.asset(
-                  'assets/images/football.png',
-                  fit: BoxFit.contain,
-                ),
-              ),
-            ],
-          );
-        },
+            ),
+          ),
+        ],
       ),
     );
   }
-
+ 
   Widget _buildInputField({
     required TextEditingController controller,
     required String hint,
     required IconData icon,
-    required double fontSize,
+    TextInputType? keyboardType,
     bool obscure = false,
     Widget? suffix,
   }) {
     return Container(
+      height: 58,
       decoration: BoxDecoration(
         color: fieldColor.withOpacity(0.94),
         borderRadius: BorderRadius.circular(14),
-        border: Border.all(
-          color: borderColor,
-        ),
+        border: Border.all(color: borderColor),
       ),
-
       child: TextField(
         controller: controller,
         obscureText: obscure,
-
-        style: TextStyle(
-          color: Colors.white,
-          fontSize: fontSize,
-        ),
-
+        keyboardType: keyboardType,
+        cursorColor: green,
+        style: const TextStyle(color: Colors.white, fontSize: 16),
         decoration: InputDecoration(
           border: InputBorder.none,
-
           hintText: hint,
-
-          hintStyle: TextStyle(
-            color: secondaryText,
-            fontSize: fontSize,
-          ),
-
-          prefixIcon: Icon(
-            icon,
-            color: green,
-          ),
-
+          hintStyle: TextStyle(color: secondaryText, fontSize: 16),
+          prefixIcon: Icon(icon, color: green, size: 22),
           suffixIcon: suffix,
         ),
       ),
     );
   }
-
-  Widget _socialButton({
-    required Widget icon,
-    required String label,
-    required double size,
-  }) {
+ 
+  Widget _socialButton({required Widget icon, required String label}) {
     return Container(
+      height: 52,
       decoration: BoxDecoration(
         color: fieldColor.withOpacity(0.94),
         borderRadius: BorderRadius.circular(12),
-        border: Border.all(
-          color: borderColor,
-        ),
+        border: Border.all(color: borderColor),
       ),
-
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
-
         children: [
           icon,
-
-          const SizedBox(width: 7),
-
+          const SizedBox(width: 6),
           Flexible(
             child: Text(
               label,
               overflow: TextOverflow.ellipsis,
-
-              style: TextStyle(
+              style: const TextStyle(
                 color: Colors.white,
-                fontSize: size,
+                fontSize: 13,
                 fontWeight: FontWeight.w500,
               ),
             ),
