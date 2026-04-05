@@ -70,9 +70,12 @@ class _LoginPageState extends State<LoginPage> {
               
 
               Positioned.fill(
-                child: Image.asset(
-                  'assets/images/login_bg.png',
-                  fit: BoxFit.fill,
+                child: Opacity(
+                  opacity: 0.9,
+                  child: Image.asset(
+                    'assets/images/login_bg.png',
+                    fit: BoxFit.fill,
+                  ),
                 ),
               ),
 
@@ -108,7 +111,7 @@ class _LoginPageState extends State<LoginPage> {
                   text: TextSpan(
                     style: TextStyle(
                       color: Colors.white,
-                      fontSize: s(36),
+                      fontSize: s(33),
                       fontWeight: FontWeight.w800,
                       height: 1,
                     ),
@@ -130,7 +133,7 @@ class _LoginPageState extends State<LoginPage> {
               ),
 
               Positioned(
-                top: y(365),
+                top: y(370),
                 left: 0,
                 right: 0,
 
@@ -139,8 +142,10 @@ class _LoginPageState extends State<LoginPage> {
                   textAlign: TextAlign.center,
 
                   style: TextStyle(
-                    color: const Color.fromARGB(255, 150, 154, 159),
+                    color: const Color.fromARGB(255, 202, 202, 202),
                     fontSize: s(20),
+                     fontFamily: 'Poppins',
+                    fontStyle: FontStyle.italic,
                   ),
                 ),
               ),
@@ -155,7 +160,7 @@ class _LoginPageState extends State<LoginPage> {
                   controller: emailController,
                   hint: 'Email or Username',
                   icon: Icons.person_outline,
-                  fontSize: s(20),
+                  fontSize: s(24),
                 ),
               ),
 
@@ -172,7 +177,7 @@ class _LoginPageState extends State<LoginPage> {
                   hint: 'Password',
                   icon: Icons.lock_outline,
                   obscure: obscurePassword,
-                  fontSize: s(17),
+                  fontSize: s(24),
 
                   suffix: IconButton(
                     onPressed: () {
@@ -194,7 +199,7 @@ class _LoginPageState extends State<LoginPage> {
 
 
               Positioned(
-                top: y(627),
+                top: y(633),
                 right: x(33),
 
                 child: GestureDetector(
@@ -215,7 +220,7 @@ class _LoginPageState extends State<LoginPage> {
              
 
               Positioned(
-                top: y(679),
+                top: y(689),
                 left: x(33),
                 right: x(33),
                 height: y(72),
@@ -247,7 +252,7 @@ class _LoginPageState extends State<LoginPage> {
               ),
 
               Positioned(
-                top: y(782),
+                top: y(786),
                 left: x(33),
                 right: x(33),
 
@@ -286,7 +291,7 @@ class _LoginPageState extends State<LoginPage> {
               
 
               Positioned(
-                top: y(817),
+                top: y(827),
                 left: x(33),
                 right: x(33),
                 height: y(63),
