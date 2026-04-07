@@ -337,50 +337,13 @@ class _SignupPageState extends State<SignupPage> {
                 // PASSWORD REQUIREMENTS
                 
 
-                Positioned(
-                  top: y(585),
-                  left: x(48),
-
-                  child: Row(
-                    children: [
-                      Icon(
-                        passwordIsValid
-                            ? Icons
-                                .check_circle_outline
-                            : Icons.info_outline,
-
-                        color: passwordIsValid
-                            ? green
-                            : secondaryText,
-
-                        size: s(18),
-                      ),
-
-                      SizedBox(
-                        width: x(7),
-                      ),
-
-                      Text(
-                        '8+ characters, 1 number',
-
-                        style: TextStyle(
-                          color: passwordIsValid
-                              ? green
-                              : secondaryText,
-
-                          fontSize: s(17),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-
+               
                 
                 // CONFIRM PASSWORD
                 
 
                 Positioned(
-                  top: y(620),
+                  top: y(599),
                   left: x(33),
                   right: x(33),
                   height: y(70),
@@ -464,8 +427,8 @@ class _SignupPageState extends State<SignupPage> {
                 
 
                 Positioned(
-                  top: y(715),
-                  left: x(33),
+                  top: y(705),
+                  left: x(50),
                   right: x(33),
 
                   child: Row(
@@ -502,7 +465,7 @@ class _SignupPageState extends State<SignupPage> {
 
                             border: Border.all(
                               color: green,
-                              width: 1.5,
+                              width: 1.0,
                             ),
                           ),
 
@@ -525,7 +488,7 @@ class _SignupPageState extends State<SignupPage> {
                           text: TextSpan(
                             style: TextStyle(
                               color: secondaryText,
-                              fontSize: s(17),
+                              fontSize: s(20),
                             ),
 
                             children: const [
