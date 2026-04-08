@@ -60,12 +60,21 @@ class _SignupPageState extends State<SignupPage> {
   
 
   bool get passwordIsValid {
-    final String password = passwordController.text;
+  final String password = passwordController.text;
 
-    // At least 8 characters + at least one number.
-    return password.length >= 8 &&
-        RegExp(r'[0-9]').hasMatch(password);
-  }
+  final bool hasMinLength = password.length >= 8;
+  final bool hasUppercase = RegExp(r'[A-Z]').hasMatch(password);
+  final bool hasLowercase = RegExp(r'[a-z]').hasMatch(password);
+  final bool hasNumber = RegExp(r'[0-9]').hasMatch(password);
+  final bool hasSpecialCharacter =
+      RegExp(r'[!@#$%^&*(),.?":{}|<>]').hasMatch(password);
+
+  return hasMinLength &&
+      hasUppercase &&
+      hasLowercase &&
+      hasNumber &&
+      hasSpecialCharacter;
+}
 
   bool get passwordsMatch {
     return confirmPasswordController.text.isNotEmpty &&
@@ -73,8 +82,7 @@ class _SignupPageState extends State<SignupPage> {
             confirmPasswordController.text;
   }
 
-  
-  // CLEAN CONTROLLERS WHEN PAGE IS REMOVED
+
   
 
   @override
@@ -87,8 +95,6 @@ class _SignupPageState extends State<SignupPage> {
     super.dispose();
   }
 
-  
-  // BUILD
   
 
   @override
