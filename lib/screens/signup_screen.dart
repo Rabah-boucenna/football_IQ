@@ -113,21 +113,13 @@ class _SignupPageState extends State<SignupPage> {
 
         child: LayoutBuilder(
           builder: (context, constraints) {
-            // ==================================================
-            // REFERENCE DESIGN SIZE
-            //
-            // We use the same coordinate system as LoginPage.
-            // Everything automatically scales to the phone.
-            // ==================================================
+          
 
             final double sx =
                 constraints.maxWidth / 512;
 
             final double sy =
                 constraints.maxHeight / 1260;
-
-            // Fonts and icons use the smallest scale so they
-            // don't become stretched.
             final double scale =
                 math.min(sx, sy);
 
@@ -214,9 +206,6 @@ class _SignupPageState extends State<SignupPage> {
                     ),
                   ),
                 ),
-
-                
-                // SUBTITLE
                 
 
                 Positioned(
@@ -338,14 +327,6 @@ class _SignupPageState extends State<SignupPage> {
                     ),
                   ),
                 ),
-
-                
-                // PASSWORD REQUIREMENTS
-                
-
-               
-                
-                // CONFIRM PASSWORD
                 
 
                 Positioned(
@@ -845,6 +826,8 @@ class _SignupPageState extends State<SignupPage> {
 
       child: TextField(
         controller: controller,
+        textAlignVertical: TextAlignVertical.top,
+        
 
         obscureText: obscure,
 
